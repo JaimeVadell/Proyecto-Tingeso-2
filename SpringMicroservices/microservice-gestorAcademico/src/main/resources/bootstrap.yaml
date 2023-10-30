@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: gestorAcademico-service
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081
+  datasource:
+    url: jdbc:mysql://localhost:3306/gestor_academico
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
