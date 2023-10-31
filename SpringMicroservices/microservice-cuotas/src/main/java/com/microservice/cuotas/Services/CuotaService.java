@@ -26,7 +26,11 @@ public class CuotaService {
     }
 
     public List<Cuota> buscarCuotasPorRut(String rut) {
-        rut = VerificadorRut.devolverRutParseado(rut);
+        Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rut);
+        if (estudiante == null){
+            throw new IllegalArgumentException("Estudiante no encontrado");
+        }
+
         return cuotasRepository.findAllByRutEstudianteOrderByPlazoMaximoPagoAsc(rut);
     }
     public boolean eliminarCuotaPorId(Long id){

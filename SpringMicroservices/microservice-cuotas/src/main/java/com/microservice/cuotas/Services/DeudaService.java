@@ -22,6 +22,10 @@ public class DeudaService {
     }
 
     public Deuda buscarDeudaPorRut(String rut) {
+        Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rut);
+        if (estudiante == null){
+            throw new IllegalArgumentException("Estudiante no encontrado");
+        }
         return deudaRepository.findByRutEstudiante(rut);
     }
 
