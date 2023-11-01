@@ -35,7 +35,7 @@ public class EstudianteService {
 
     public Estudiante actualizarEstudiante(Estudiante estudiante){
         String rutEstudianteParseado = VerificadorRut.devolverRutParseado(estudiante.getRut());
-        if(!estudianteRepository.existsById(rutEstudianteParseado) || rutEstudianteParseado.isEmpty()){
+        if(rutEstudianteParseado.isEmpty() || !estudianteRepository.existsById(rutEstudianteParseado)){
             return null;
         }
         estudiante.setRut(rutEstudianteParseado);

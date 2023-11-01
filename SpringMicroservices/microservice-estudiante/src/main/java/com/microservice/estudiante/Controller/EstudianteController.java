@@ -34,7 +34,7 @@ public class EstudianteController {
     }
 
     @PostMapping()
-    public ResponseEntity<Estudiante> guardarEstudiante(@RequestBody Estudiante estudiante) {
+    public ResponseEntity<Estudiante> createEstudiante(@RequestBody Estudiante estudiante) {
         Estudiante estudianteNew = estudianteService.crearEstudiante(estudiante);
         if(estudianteNew == null){
             return ResponseEntity.badRequest().build();
@@ -42,7 +42,7 @@ public class EstudianteController {
         return ResponseEntity.ok(estudianteNew);
     }
 
-    @PostMapping("/actualizar")
+    @PutMapping("/actualizar")
     public ResponseEntity<Estudiante> actualizarEstudiante(@RequestBody Estudiante estudiante) {
         Estudiante estudianteNew = estudianteService.actualizarEstudiante(estudiante);
         if(estudianteNew == null){
