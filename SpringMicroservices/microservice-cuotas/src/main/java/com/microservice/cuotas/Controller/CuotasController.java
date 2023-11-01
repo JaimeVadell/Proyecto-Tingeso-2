@@ -5,10 +5,7 @@ import com.microservice.cuotas.Services.CuotaService;
 import com.microservice.cuotas.Utils.VerificadorRut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +24,26 @@ public class CuotasController {
               }
               return ResponseEntity.ok(cuotasEstudiante);
     }
+
+    @PostMapping("/crear/{rutEstudiante}")
+    public ResponseEntity<Cuota> crearCuotaEstudiante(@PathVariable String rutEstudiante, @RequestBody Cuota cuota){
+        Cuota cuotaEstudiante = cuotaService.crearCuotaSinDatos(rutEstudiante, cuota);
+        if(cuotaEstudiante == null){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(cuotaEstudiante);
+    }
+
+    @PutMapping("/actualizar/{idCuota}")
+    public ResponseEntity<Cuota> actualizarCuotaEstudiante(@PathVariable("idCuota") Long idCuota, @RequestBody Cuota cuota){
+        Cuota cuotaActualizada = cuotaService.actualizarCuota(idCuota, cuota);
+        if(cuotaActualizada == null){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(cuotaActualizada);
+    }
+
+
 
 
 }

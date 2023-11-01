@@ -61,4 +61,20 @@ public class DeudaService {
 
         return deudaRepository.save(deuda);
     }
+
+    public Deuda actualizarDeudaEstudiante(Long idDeuda, Deuda deuda){
+        Deuda deudaActual = buscarDeudaPorId(idDeuda);
+        if (deudaActual == null){
+            return null; // no existe una deuda con este ID
+        }
+
+        deudaActual.setMontoDeuda(deuda.getMontoDeuda());
+        deudaActual.setCuotasRestantes(deuda.getCuotasRestantes());
+        deudaActual.setPrecioCuota(deuda.getPrecioCuota());
+        deudaActual.setPrecioCuotaInicial(deuda.getPrecioCuotaInicial());
+        deudaActual.setCuotasConRetraso(deuda.getCuotasConRetraso());
+        deudaActual.setCuotasConRetrasoHistorico(deuda.getCuotasConRetrasoHistorico());
+
+        return deudaRepository.save(deudaActual);
+    }
 }

@@ -163,4 +163,14 @@ public class PruebaService {
     }
 
 
+    public List<Prueba> obtenerPruebasEstudiante(String rutEstudiante){
+        Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
+        if(estudiante == null){
+            throw new IllegalArgumentException("Error: Estudiante no existe - Rut: " + rutEstudiante);
+        }
+        rutEstudiante = estudiante.getRut();
+        return pruebaRepository.findAllByRutEstudianteOrderByDiaPruebaAsc(rutEstudiante);
+    }
+
+
 }

@@ -59,6 +59,17 @@ public class CuotaService {
         return cuotasRepository.save(cuota);
     }
 
+    public Cuota crearCuotaSinDatos(String rutEstudiante, Cuota cuota){
+        Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
+        if (estudiante == null){
+            return null; // estudiante no encontrado
+        }
+        rutEstudiante = estudiante.getRut();
+        cuota.setRutEstudiante(rutEstudiante);
+        return cuotasRepository.save(cuota);
+
+    }
+
     public void generarCuotasArancel(String rutEstudiante, int precioCuota, int cuotas) {
         Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
         if (estudiante == null){
@@ -89,6 +100,16 @@ public class CuotaService {
             plazoMaximoPago = plazoMaximoPago.plusMonths(1);
             plazoMaximoPago = LocalDate.of(plazoMaximoPago.getYear(), plazoMaximoPago.getMonth(), 10);
         }
+    }
 
+    public Cuota actualizarCuota(Long idCuota, Cuota cuota){
+        Cuota cuotaActual = buscarCuotaPorId(idCuota);
+        if (cuotaActual == null){
+            return null; // no existe una cuota con este ID
+        }
+        cuotaActual.setMontoCuota(cuota.getMontoCuota());
+        cuotaActual.setPlazoMaximoPago(cuota.getPlazoMaximoPago());
+        cuotaActual.setPagada(cuota.isPagada());
+        return cuotasRepository.save(cuotaActual);
     }
 }

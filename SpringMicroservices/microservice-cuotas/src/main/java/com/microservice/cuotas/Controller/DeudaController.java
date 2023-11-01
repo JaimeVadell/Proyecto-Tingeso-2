@@ -22,7 +22,14 @@ public class DeudaController {
         return ResponseEntity.ok(deuda);
     }
 
-    @PutMapping("/{rutEstudiante}")
+    @PutMapping("/{idDeuda}")
+    public ResponseEntity<Deuda> actualizarDeudaEstudiante(@PathVariable("idDeuda") Long idDeuda, @RequestBody Deuda deuda) {
+        Deuda deudaEstudiante = deudaService.actualizarDeudaEstudiante(idDeuda, deuda);
+        if (deudaEstudiante == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(deudaEstudiante);
+    }
     
 
 }
