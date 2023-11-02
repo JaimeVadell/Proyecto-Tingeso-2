@@ -54,12 +54,16 @@ public class ArancelService {
     }
 
     public Arancel crearArancelEstudiante(String rutEstudiante, EMedioPago pago, int numeroCuotas){
+        if((numeroCuotas != 0 && pago == EMedioPago.CONTADO) || (pago == EMedioPago.CUOTAS && (numeroCuotas > 10 || numeroCuotas <= 0))){
+            throw new IllegalArgumentException("Numero Cuotas Invalidas");
+        }
+
         Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
         if (estudiante == null){
-            return null; // no existe estudiante
+            throw  new IllegalArgumentException("Estudiante no existe");
         }
         if(arancelRepository.findByRutEstudiante(rutEstudiante).isPresent()){
-            return null; // ya existe un arancel para ese estudiante
+            throw new RuntimeException("Arancel ya existe para el estudiante");
         }
         rutEstudiante = estudiante.getRut();
 

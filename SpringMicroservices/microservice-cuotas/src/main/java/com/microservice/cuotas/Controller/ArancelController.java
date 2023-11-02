@@ -1,5 +1,6 @@
 package com.microservice.cuotas.Controller;
 
+import com.microservice.cuotas.DTO.CrearArancelDTO;
 import com.microservice.cuotas.Entities.Arancel;
 import com.microservice.cuotas.Entities.EMedioPago;
 import com.microservice.cuotas.Services.ArancelService;
@@ -23,9 +24,10 @@ public class ArancelController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Arancel> crearArancel(){
+    public ResponseEntity<Arancel> crearArancel(@RequestBody CrearArancelDTO crearArancelDTO){
+        Arancel arancel = arancelService.crearArancelEstudiante(crearArancelDTO.getRut()
+                ,crearArancelDTO.getEmedioPago(),crearArancelDTO.getNumeroCuotas());
 
-        Arancel arancel = arancelService.crearArancelEstudiante("20107536-K", EMedioPago.CUOTAS, 3);
         if(arancel== null){
             return ResponseEntity.badRequest().build();
         }

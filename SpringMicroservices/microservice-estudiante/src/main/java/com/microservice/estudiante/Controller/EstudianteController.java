@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/estudiante")
 public class EstudianteController {
@@ -35,6 +36,7 @@ public class EstudianteController {
 
     @PostMapping()
     public ResponseEntity<Estudiante> createEstudiante(@RequestBody Estudiante estudiante) {
+        System.out.println("Estoy en el controller");
         Estudiante estudianteNew = estudianteService.crearEstudiante(estudiante);
         if(estudianteNew == null){
             return ResponseEntity.badRequest().build();

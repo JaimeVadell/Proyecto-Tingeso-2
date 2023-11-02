@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import EstudianteService from "../../services/EstudianteService";
+import { Link } from "react-router-dom";
+import EstudianteService from "../../services/EstudianteService/EstudianteService";
 
 class ListEstudianteComponent extends Component {
     constructor(props) {
@@ -8,10 +9,10 @@ class ListEstudianteComponent extends Component {
         this.state = {
             estudiantes: []
         }
-        this.addestudiantes = this.addEstudiante.bind(this);
+        this.addEstudiante = this.addEstudiante.bind(this);
     }
     addEstudiante() {
-        this.props.history.push('/add-estudiante/_add');
+        this.props.history.push('/add-estudiante');
     }
     viewEstudiante(id) {
         this.props.history.push(`/view-estudiante/${id}`);
@@ -47,6 +48,10 @@ class ListEstudianteComponent extends Component {
                                             <td> {estudiante.nombre} </td>
                                             <td> {estudiante.apellido}</td>
                                             <td>
+                                                <Link
+                                                    to={`/add-arancel?rut=${estudiante.rut}&tipoColegio=${estudiante.tipoColegio}`}
+                                                    className="btn btn-primary"
+                                                > Create Arancel </Link>
                                                 <button onClick={() => this.viewEstudiante(estudiante.id)} className="btn btn-info">View </button>
                                                 <button style={{ marginLeft: "10px" }} onClick={() => this.editEstudiante(estudiante.id)} className="btn btn-info">Update </button>
                                                 <button style={{ marginLeft: "10px" }} onClick={() => this.deleteEstudiante(estudiante.id)} className="btn btn-danger">Delete </button>
