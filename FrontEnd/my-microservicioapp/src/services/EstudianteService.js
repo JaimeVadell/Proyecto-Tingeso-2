@@ -13,9 +13,11 @@ class EstudianteService {
         return axios.post(ESTUDIANTE_API_BASE_URL, estudiante);
     }
     updateEstudiante(estudiante){
-        return axios.put(ESTUDIANTE_API_BASE_URL + '/' + "actualizar", estudiante);
+        return axios.put(ESTUDIANTE_API_BASE_URL + '/' + 'actualizar', estudiante);
     }
     deleteEstudiante(rut){
         return axios.delete(ESTUDIANTE_API_BASE_URL + '/' + rut);
     }
 }
+
+export default new EstudianteService()

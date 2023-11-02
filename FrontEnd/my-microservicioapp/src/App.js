@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import HeaderComponent from './components/Common/HeaderComponent';
 import ListEstudianteComponent from './components/Estudiante/ListEstudianteComponent';
 
 
