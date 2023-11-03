@@ -1,5 +1,6 @@
 package com.microservice.cuotas.Services;
 
+import com.microservice.cuotas.Entities.Cuota;
 import com.microservice.cuotas.Entities.ETipoPago;
 import com.microservice.cuotas.Entities.Pago;
 import com.microservice.cuotas.Model.Estudiante;
@@ -19,6 +20,11 @@ public class PagoService {
     PagoRepository pagoRepository;
     @Autowired
     BuscadorEstudiante buscadorEstudiante;
+
+    @Autowired
+    CuotaService cuotaService;
+    @Autowired
+    DeudaService deudaService;
 
 
     public Pago buscarPagoPorId(Long id) {
@@ -56,8 +62,34 @@ public class PagoService {
         rutEstudiante = VerificadorRut.devolverRutParseado(rutEstudiante);
         //Retorna true si existe un pago de matricula para el rut, false si no existe
         return !pagoRepository.findByRutEstudianteAndTipoPago(rutEstudiante, ETipoPago.MATRICULA).isEmpty();
-
-
     }
+
+    public Pago pagarProximaCuota(String rutEstudiante) {
+        Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
+        if(estudiante == null){
+            throw new IllegalArgumentException("Estudiante no existe");
+        }
+        List<Cuota> cuotasEstudianteSinPagar = cuotaService.obtenerCuotasSinPagar(estudiante.getRut());
+        if (cuotasEstudianteSinPagar.isEmpty()) {
+            throw new IllegalArgumentException("Estudiante no tiene cuotas pendientes");
+        }
+        Cuota cuotaCorrespondiente = cuotasEstudianteSinPagar.get(0);
+        // Generar Pago
+        Pago pago = Pago.builder()
+                .montoPagado(cuotaCorrespondiente.getMontoCuota())
+                .fechaPago(LocalDate.now())
+                .tipoPago(ETipoPago.CUOTA_ARANCEL)
+                .rutEstudiante(estudiante.getRut())
+                .build();
+        //Guardar Pago
+        pagoRepository.save(pago);
+        //Actuliazar estado de cuota
+        cuotaCorrespondiente.setPagada(true);
+        cuotaCorrespondiente.setPago(pago);
+        cuotaService.actualizarCuota(cuotaCorrespondiente.getIdCuota(), cuotaCorrespondiente);
+        deudaService.actualizardeudaCuotaPago(estudiante.getRut(), cuotaCorrespondiente.getMontoCuota());
+        return pago;
+    }
+
 
 }

@@ -13,4 +13,5 @@ public interface CuotasRepository extends JpaRepository<Cuota, Long> {
 
     List<Cuota> findAllByRutEstudianteOrderByPlazoMaximoPagoAsc(String rutEstudiante);
 
+    List<Cuota> findByRutEstudianteAndPagadaIsFalseOrderByPlazoMaximoPagoAsc(String rutEstudiante);
 }

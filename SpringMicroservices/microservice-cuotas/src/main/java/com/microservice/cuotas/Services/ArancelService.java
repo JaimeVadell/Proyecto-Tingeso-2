@@ -157,4 +157,24 @@ public class ArancelService {
         pagoService.crearPago(rutEstudiante, precioMatricula, LocalDate.now(), ETipoPago.MATRICULA);
 
     }
+
+    public List<Arancel> obtenerTodos() {
+        return arancelRepository.findAll();
+    }
+
+    public Arancel actualizarEstadoPagoArancel(String rutEstudiante){
+        Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
+        if (estudiante == null){
+            throw new IllegalArgumentException("Estudiante no encontrado");
+        }
+        Arancel arancel = buscarArancelPorRut(estudiante.getRut());
+        if (arancel == null){
+            throw new IllegalArgumentException("Estudiante no tiene arancel");
+        }
+        if(arancel.isEstadoDePagoArancel()){
+            throw new IllegalArgumentException("Arancel ya pagado");
+        }
+        arancel.setEstadoDePagoArancel(true);
+        return arancelRepository.save(arancel);
+    }
 }

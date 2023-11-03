@@ -8,11 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/arancel")
 public class ArancelController {
     @Autowired
     ArancelService arancelService;
+
+    @GetMapping
+    public ResponseEntity<List<Arancel>> obtenerTodos(){
+        List<Arancel> arancel = arancelService.obtenerTodos();
+        if(arancel.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(arancel);
+    }
 
     @GetMapping("/{rutEstudiante}")
     public ResponseEntity<Arancel> obtenerArancel(@PathVariable("rutEstudiante") String rutEstudiante){

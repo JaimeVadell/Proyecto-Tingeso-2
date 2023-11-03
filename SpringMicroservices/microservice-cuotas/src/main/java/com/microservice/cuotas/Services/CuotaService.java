@@ -112,4 +112,12 @@ public class CuotaService {
         cuotaActual.setPagada(cuota.isPagada());
         return cuotasRepository.save(cuotaActual);
     }
+
+    public List<Cuota> obtenerCuotasSinPagar(String rutEstudiante){
+        Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
+        if (estudiante == null){
+            throw new IllegalArgumentException("Estudiante no encontrado");
+        }
+        return cuotasRepository.findByRutEstudianteAndPagadaIsFalseOrderByPlazoMaximoPagoAsc(estudiante.getRut());
+    }
 }

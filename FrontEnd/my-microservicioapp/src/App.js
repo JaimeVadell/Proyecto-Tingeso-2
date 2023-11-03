@@ -5,7 +5,8 @@ import HeaderComponent from './components/Common/HeaderComponent';
 import ListEstudianteComponent from './components/Estudiante/ListEstudianteComponent';
 import CreateEstudianteComponent from './components/Estudiante/CreateEstudianteComponent';
 import CreateArancelComponent from './components/Arancel/CreateArancelComponent';
-
+import ViewCuotasEstudiante from "./components/Cuotas/ViewCuotasEstudiante";
+import ViewPagosComponent from "./components/Pagos/ViewPagosEstudianteComponent";
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
                             <Route path = "/estudiantes" component = {ListEstudianteComponent}></Route>
                             <Route path = "/add-estudiante" component = {CreateEstudianteComponent}></Route>
                             <Route path = "/add-arancel" component = {CreateArancelComponent}></Route>
+                            <Route path = "/cuotas/:rut" component = {ViewCuotasEstudiante}></Route>
+                            <Route path = "/pagos/:rut" component = {ViewPagosComponent}></Route>
                     </Switch>
                 </div>
         </Router>

@@ -17,6 +17,9 @@ public class DeudaService {
     @Autowired
     BuscadorEstudiante buscadorEstudiante;
 
+    @Autowired
+    ArancelService arancelService;
+
     public Deuda buscarDeudaPorId(Long id) {
         return deudaRepository.findById(id).orElse(null);
     }
@@ -76,5 +79,23 @@ public class DeudaService {
         deudaActual.setCuotasConRetrasoHistorico(deuda.getCuotasConRetrasoHistorico());
 
         return deudaRepository.save(deudaActual);
+    }
+
+    public Deuda actualizardeudaCuotaPago(String rutEstudiante, int montoCuotaPagada){
+        Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
+        if (estudiante == null){
+            throw new IllegalArgumentException("Estudiante no encontrado");
+        }
+        Deuda deuda = buscarDeudaPorRut(estudiante.getRut());
+        if (deuda == null){
+            throw new IllegalArgumentException("Estudiante no tiene deuda");
+        }
+        deuda.setCuotasRestantes(deuda.getCuotasRestantes() - 1);
+        deuda.setCuotasConRetraso(0); // Si el estudiante paga una cuota, se reinicia el contador de cuotas con retraso
+        if (deuda.getCuotasRestantes() == 0){
+            arancelService.actualizarEstadoPagoArancel(estudiante.getRut());
+        }
+        deuda.setMontoDeuda(deuda.getMontoDeuda() - montoCuotaPagada);
+        return deudaRepository.save(deuda);
     }
 }

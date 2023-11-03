@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import EstudianteService from "../../services/EstudianteService/EstudianteService";
+import ArancelService from "../../services/CuotasService/ArancelService";
 
 class ListEstudianteComponent extends Component {
     constructor(props) {
@@ -17,10 +18,24 @@ class ListEstudianteComponent extends Component {
     viewEstudiante(id) {
         this.props.history.push(`/view-estudiante/${id}`);
     }
-    componentDidMount() {
-        EstudianteService.getEstudiantes().then((res) => {
-            this.setState({ estudiantes: res.data });
-        });
+
+    async checkArancel(rutEstudiante) {
+        try {
+            const res = await ArancelService.getArancelByRut(rutEstudiante);
+            return res.status === 200;
+        } catch {
+            return false;
+        }
+    }
+
+    async componentDidMount() {
+        const response = await EstudianteService.getEstudiantes();
+        const estudiantes = response.data;
+        const estudiantesWithArancelCheck = await Promise.all(estudiantes.map(async (estudiante) => {
+            const hasArancel = await this.checkArancel(estudiante.rut);
+            return { ...estudiante, hasArancel };
+        }));
+        this.setState({ estudiantes: estudiantesWithArancelCheck });
     }
     render() {
         return (
@@ -48,10 +63,24 @@ class ListEstudianteComponent extends Component {
                                             <td> {estudiante.nombre} </td>
                                             <td> {estudiante.apellido}</td>
                                             <td>
-                                                <Link
-                                                    to={`/add-arancel?rut=${estudiante.rut}&tipoColegio=${estudiante.tipoColegio}`}
-                                                    className="btn btn-primary"
-                                                > Create Arancel </Link>
+                                                {!estudiante.hasArancel ? (
+                                                    <Link
+                                                        to={`/add-arancel?rut=${estudiante.rut}&tipoColegio=${estudiante.tipoColegio}`}
+                                                        className="btn btn-primary"
+                                                    >
+                                                        Create Arancel
+                                                    </Link>
+                                                ) : null}
+                                                {estudiante.hasArancel ? (
+                                                    <>
+                                                        <Link to={`/cuotas/${estudiante.rut}`} className="btn btn-info" style={{ marginLeft: "10px" }}>
+                                                            Ver Cuotas
+                                                        </Link>
+                                                        <Link to={`/pagos/${estudiante.rut}`} className="btn btn-info" style={{ marginLeft: "10px" }}>
+                                                            Ver Pagos
+                                                        </Link>
+                                                    </>
+                                                ) : null}
                                                 <button onClick={() => this.viewEstudiante(estudiante.id)} className="btn btn-info">View </button>
                                                 <button style={{ marginLeft: "10px" }} onClick={() => this.editEstudiante(estudiante.id)} className="btn btn-info">Update </button>
                                                 <button style={{ marginLeft: "10px" }} onClick={() => this.deleteEstudiante(estudiante.id)} className="btn btn-danger">Delete </button>

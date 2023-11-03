@@ -12,6 +12,10 @@ class ArancelService {
         return axios.post(CUOTAS_API_BASE_URL + '/crear', CrearArancelDTO);
     }
 
+    getArancelByRut(rut){
+        return axios.get(CUOTAS_API_BASE_URL + '/' + rut);
+    }
+
 }
 
 
