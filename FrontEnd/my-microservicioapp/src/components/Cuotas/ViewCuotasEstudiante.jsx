@@ -8,7 +8,8 @@ class CreateCuotasComponent extends Component {
 
         this.state = {
             rut: '',
-            cuotas: []
+            cuotas: [],
+            pagarCuota: false
         }
         this.handleNextPayment = this.handleNextPayment.bind(this);
     }
@@ -30,6 +31,9 @@ class CreateCuotasComponent extends Component {
         this.setState({rut: rut})
         CuotasService.getCuotasRut(rut).then((res) => {
             this.setState({ cuotas: res.data});
+            const pagarCuota = res.data.some(cuota => !cuota.pagada);
+            this.setState({ pagarCuota });
+            console.log("pagarCuota", pagarCuota)
         });
     }
 
@@ -38,9 +42,11 @@ class CreateCuotasComponent extends Component {
             <div>
                 <h2 className="text-center">Cuotas Estudiante</h2>
                 <div className="row">
-                    <button className="btn btn-primary" style={{ marginBottom: "10px" }} onClick={this.handleNextPayment}>
-                        Pagar siguiente cuota
-                    </button>
+                    {this.state.pagarCuota ? (
+                        <button className="btn btn-primary" style={{ marginBottom: "10px" }} onClick={this.handleNextPayment}>
+                            Pagar siguiente cuota
+                        </button>
+                    ) : null}
                     <table className="table table-striped table-bordered">
                         <thead>
                         <tr>
