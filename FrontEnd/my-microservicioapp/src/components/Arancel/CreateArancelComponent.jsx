@@ -7,7 +7,7 @@ class CreateArancelComponent extends Component {
         this.state = {
             rut: '',
             tipoColegio : '',
-            EMedioPago: '',
+            medioPago: '',
             numeroCuotas: ''
         }
         this.handleMedioPagoChange = this.handleMedioPagoChange.bind(this);
@@ -19,7 +19,7 @@ class CreateArancelComponent extends Component {
         e.preventDefault();
         let arancelDTO = {
             rut: this.state.rut,
-            EmedioPago: this.state.EMedioPago,
+            medioPago: this.state.medioPago,
             numeroCuotas: this.state.numeroCuotas};
         console.log("Arancel a enviar:", arancelDTO);
         ArancelService.createArancel(arancelDTO).then(res => {
@@ -30,7 +30,7 @@ class CreateArancelComponent extends Component {
     handleMedioPagoChange = (event) => {
         const value = event.target.value;
         this.setState({
-            EMedioPago: value,
+            medioPago: value,
             numeroCuotas: value === "CONTADO" ? 0 : this.state.numeroCuotas
         });
     }

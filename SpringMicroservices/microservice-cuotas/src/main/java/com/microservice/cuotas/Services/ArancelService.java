@@ -57,7 +57,9 @@ public class ArancelService {
         if((numeroCuotas != 0 && pago == EMedioPago.CONTADO) || (pago == EMedioPago.CUOTAS && (numeroCuotas > 10 || numeroCuotas <= 0))){
             throw new IllegalArgumentException("Numero Cuotas Invalidas");
         }
-
+        if (pago == null){
+            throw new IllegalArgumentException("Medio de pago invalido");
+        }
         Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
         if (estudiante == null){
             throw  new IllegalArgumentException("Estudiante no existe");

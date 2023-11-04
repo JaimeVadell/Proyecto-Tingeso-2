@@ -18,7 +18,6 @@ public class CuotasController {
 
     @GetMapping("/{rutEstudiante}")
     public ResponseEntity<List<Cuota>> obtenerCuotasEstudiante(@PathVariable("rutEstudiante") String rutEstudiante){
-        System.out.println("Estoy buscando cuotas");
            List<Cuota> cuotasEstudiante = cuotaService.buscarCuotasPorRut(rutEstudiante);
               if (cuotasEstudiante.isEmpty()){
                 return ResponseEntity.noContent().build();

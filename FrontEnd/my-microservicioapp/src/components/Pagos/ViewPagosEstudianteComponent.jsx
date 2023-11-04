@@ -41,7 +41,7 @@ class ViewPagosComponent extends Component {
                                         <td> {pago.idPago} </td>
                                         <td> {pago.montoPagado}</td>
                                         <td> {pago.fechaPago}</td>
-                                        <td> {pago.tipoPago}</td>
+                                        <td> {pago.tipoPago === 'MATRICULA' ? 'MATRICULA' : pago.tipoPago === 'CUOTA_ARANCEL' ? 'ARANCEL' : pago.tipoPago} </td>
                                     </tr>
                             )
                         }

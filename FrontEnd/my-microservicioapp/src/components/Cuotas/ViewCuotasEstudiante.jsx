@@ -1,6 +1,6 @@
 import {Component} from "react";
 import CuotasService from "../../services/CuotasService/CuotasService";
-
+import PagosService from "../../services/CuotasService/PagosService";
 
 class CreateCuotasComponent extends Component {
     constructor(props){
@@ -10,8 +10,18 @@ class CreateCuotasComponent extends Component {
             rut: '',
             cuotas: []
         }
+        this.handleNextPayment = this.handleNextPayment.bind(this);
     }
 
+    handleNextPayment() {
+        PagosService.pagarProximaCuota(this.state.rut).then((res) => {
+            //Recargar pagina actual
+            CuotasService.getCuotasRut(this.state.rut).then((res) => {
+                this.setState({ cuotas: res.data});
+            } );
+        });
+
+    }
     cancel(){
         this.props.history.push('/estudiantes');
     }
@@ -28,6 +38,9 @@ class CreateCuotasComponent extends Component {
             <div>
                 <h2 className="text-center">Cuotas Estudiante</h2>
                 <div className="row">
+                    <button className="btn btn-primary" style={{ marginBottom: "10px" }} onClick={this.handleNextPayment}>
+                        Pagar siguiente cuota
+                    </button>
                     <table className="table table-striped table-bordered">
                         <thead>
                         <tr>
@@ -47,7 +60,7 @@ class CreateCuotasComponent extends Component {
                                         <td>{cuota.montoCuota}</td>
                                         <td>{cuota.plazoMaximoPago}</td>
                                         <td>{cuota.pagada ? 'Sí' : 'No'}</td>
-                                        <td>{cuota.pagada ? cuota.pago : 'No aplica'}</td>
+                                        <td>{cuota.pagada ? cuota.pago.idPago : 'No aplica'}</td>
                                     </tr>
                             )
                         }

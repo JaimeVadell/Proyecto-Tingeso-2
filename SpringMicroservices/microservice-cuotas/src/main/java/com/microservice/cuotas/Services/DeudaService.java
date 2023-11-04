@@ -1,7 +1,9 @@
 package com.microservice.cuotas.Services;
 
+import com.microservice.cuotas.Entities.Arancel;
 import com.microservice.cuotas.Entities.Deuda;
 import com.microservice.cuotas.Model.Estudiante;
+import com.microservice.cuotas.Repositories.ArancelRepository;
 import com.microservice.cuotas.Repositories.DeudaRepository;
 import com.microservice.cuotas.Utils.BuscadorEstudiante;
 import com.microservice.cuotas.Utils.VerificadorRut;
@@ -18,7 +20,7 @@ public class DeudaService {
     BuscadorEstudiante buscadorEstudiante;
 
     @Autowired
-    ArancelService arancelService;
+    ArancelRepository arancelRepository;
 
     public Deuda buscarDeudaPorId(Long id) {
         return deudaRepository.findById(id).orElse(null);
@@ -93,7 +95,12 @@ public class DeudaService {
         deuda.setCuotasRestantes(deuda.getCuotasRestantes() - 1);
         deuda.setCuotasConRetraso(0); // Si el estudiante paga una cuota, se reinicia el contador de cuotas con retraso
         if (deuda.getCuotasRestantes() == 0){
-            arancelService.actualizarEstadoPagoArancel(estudiante.getRut());
+            Arancel arancel = arancelRepository.findByRutEstudiante(estudiante.getRut()).orElse(null);
+            if (arancel == null){
+                throw new IllegalArgumentException("Estudiante no tiene arancel");
+            }
+            arancel.setEstadoDePagoArancel(true);
+            arancelRepository.save(arancel);
         }
         deuda.setMontoDeuda(deuda.getMontoDeuda() - montoCuotaPagada);
         return deudaRepository.save(deuda);

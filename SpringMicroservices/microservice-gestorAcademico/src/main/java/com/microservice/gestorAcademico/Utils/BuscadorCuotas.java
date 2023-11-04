@@ -3,7 +3,9 @@ package com.microservice.gestorAcademico.Utils;
 import com.microservice.gestorAcademico.Model.Arancel;
 import com.microservice.gestorAcademico.Model.Cuota;
 import com.microservice.gestorAcademico.Model.Deuda;
+import com.microservice.gestorAcademico.Model.Pago;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
@@ -57,5 +59,16 @@ public class BuscadorCuotas {
         ResponseEntity<Cuota> response = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Cuota.class);
 
         return response.getBody();
+    }
+
+    public List<Pago> obtenerPagosEstudiante(String rut) {
+        String url = "http://cuotas-service/pagos/" + rut;
+        ParameterizedTypeReference<List<Pago>> responseType = new ParameterizedTypeReference<List<Pago>>() {};
+
+        ResponseEntity<List<Pago>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
+
+        // Obtiene la lista de Pago del ResponseEntity
+
+        return responseEntity.getBody();
     }
 }

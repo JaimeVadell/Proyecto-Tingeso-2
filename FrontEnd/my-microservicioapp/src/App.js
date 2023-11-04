@@ -7,6 +7,7 @@ import CreateEstudianteComponent from './components/Estudiante/CreateEstudianteC
 import CreateArancelComponent from './components/Arancel/CreateArancelComponent';
 import ViewCuotasEstudiante from "./components/Cuotas/ViewCuotasEstudiante";
 import ViewPagosComponent from "./components/Pagos/ViewPagosEstudianteComponent";
+import ViewResumenEstudianteComponent from "./components/ResumenEstudiante/ViewResumenEstudianteComponent";
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
                             <Route path = "/add-arancel" component = {CreateArancelComponent}></Route>
                             <Route path = "/cuotas/:rut" component = {ViewCuotasEstudiante}></Route>
                             <Route path = "/pagos/:rut" component = {ViewPagosComponent}></Route>
+                            <Route path = "/resumen/:rut" component = {ViewResumenEstudianteComponent}></Route>
+
                     </Switch>
                 </div>
         </Router>

@@ -68,7 +68,7 @@ class ListEstudianteComponent extends Component {
                                                         to={`/add-arancel?rut=${estudiante.rut}&tipoColegio=${estudiante.tipoColegio}`}
                                                         className="btn btn-primary"
                                                     >
-                                                        Create Arancel
+                                                        Crear Arancel
                                                     </Link>
                                                 ) : null}
                                                 {estudiante.hasArancel ? (
@@ -79,11 +79,11 @@ class ListEstudianteComponent extends Component {
                                                         <Link to={`/pagos/${estudiante.rut}`} className="btn btn-info" style={{ marginLeft: "10px" }}>
                                                             Ver Pagos
                                                         </Link>
+                                                        <Link to={`/resumen/${estudiante.rut}`} className="btn btn-info" style={{ marginLeft: "10px" }}>
+                                                            Resumen Estudiante
+                                                        </Link>
                                                     </>
                                                 ) : null}
-                                                <button onClick={() => this.viewEstudiante(estudiante.id)} className="btn btn-info">View </button>
-                                                <button style={{ marginLeft: "10px" }} onClick={() => this.editEstudiante(estudiante.id)} className="btn btn-info">Update </button>
-                                                <button style={{ marginLeft: "10px" }} onClick={() => this.deleteEstudiante(estudiante.id)} className="btn btn-danger">Delete </button>
                                             </td>
                                         </tr>
                                 )

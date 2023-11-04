@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class CrearArancelDTO {
     private String rut;
-    private EMedioPago EmedioPago;
+    private EMedioPago medioPago;
     private int numeroCuotas;
 
 }

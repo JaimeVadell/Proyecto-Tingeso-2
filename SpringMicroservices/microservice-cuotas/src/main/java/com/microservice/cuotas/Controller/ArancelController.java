@@ -37,7 +37,7 @@ public class ArancelController {
     @PostMapping("/crear")
     public ResponseEntity<Arancel> crearArancel(@RequestBody CrearArancelDTO crearArancelDTO){
         Arancel arancel = arancelService.crearArancelEstudiante(crearArancelDTO.getRut()
-                ,crearArancelDTO.getEmedioPago(),crearArancelDTO.getNumeroCuotas());
+                ,crearArancelDTO.getMedioPago(),crearArancelDTO.getNumeroCuotas());
 
         if(arancel== null){
             return ResponseEntity.badRequest().build();
