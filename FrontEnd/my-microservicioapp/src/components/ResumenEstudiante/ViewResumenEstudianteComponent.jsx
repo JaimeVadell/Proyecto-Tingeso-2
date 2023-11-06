@@ -1,5 +1,5 @@
 import {Component} from "react";
-import ResumenService from "../../services/CuotasService/ResumenService";
+import ResumenService from "../../services/GestorAcademicoService/ResumenService";
 
 class ViewResumenEstudianteComponent extends Component {
     constructor(props) {

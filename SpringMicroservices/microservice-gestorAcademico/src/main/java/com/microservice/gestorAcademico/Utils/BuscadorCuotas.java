@@ -28,7 +28,9 @@ public class BuscadorCuotas {
 
     public List<Cuota> obtenerCuotasEstudiante(String rutEstudiante){
         String url = "http://cuotas-service/cuotas/" + rutEstudiante;
-         return restTemplate.getForObject(url, List.class);
+        ParameterizedTypeReference<List<Cuota>> responseType = new ParameterizedTypeReference<List<Cuota>>() {};
+        ResponseEntity<List<Cuota>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
+        return responseEntity.getBody();
     }
 
     public Deuda obtenerDeudaEstudiante(String rutEstudiante){

@@ -40,9 +40,12 @@ class ListEstudianteComponent extends Component {
     render() {
         return (
             <div>
-                <h2 className="text-center">Estudiantes List</h2>
+                <h2 className="text-center">Lista de Estudiantes</h2>
                 <div className="row">
-                    <button className="btn btn-primary" onClick={this.addEstudiante}> Add Estudiante</button>
+                    <button className="btn btn-primary" onClick={this.addEstudiante}> Agregar Estudiante</button>
+                </div>
+                <div className="row">
+                    <Link to="/prueba" className="btn btn-success" style={{ marginBottom: '10px' }}>Subir Examen</Link>
                 </div>
                 <div className="row">
                     <table className="table table-striped table-bordered">
@@ -74,13 +77,16 @@ class ListEstudianteComponent extends Component {
                                                 {estudiante.hasArancel ? (
                                                     <>
                                                         <Link to={`/cuotas/${estudiante.rut}`} className="btn btn-info" style={{ marginLeft: "10px" }}>
-                                                            Ver Cuotas
+                                                            Cuotas
                                                         </Link>
                                                         <Link to={`/pagos/${estudiante.rut}`} className="btn btn-info" style={{ marginLeft: "10px" }}>
-                                                            Ver Pagos
+                                                            Pagos
                                                         </Link>
                                                         <Link to={`/resumen/${estudiante.rut}`} className="btn btn-info" style={{ marginLeft: "10px" }}>
-                                                            Resumen Estudiante
+                                                            Resumen
+                                                        </Link>
+                                                        <Link to={`/reembolso/${estudiante.rut}`} className="btn btn-info" style={{ marginLeft: "10px" }}>
+                                                            Reembolso
                                                         </Link>
                                                     </>
                                                 ) : null}
@@ -90,6 +96,10 @@ class ListEstudianteComponent extends Component {
                             }
                         </tbody>
                     </table>
+                </div>
+                <div className="row">
+                    <Link to="/actualizar-descuentos-arancel" className="btn btn-warning" style={{ marginBottom: '10px' }}>Actualizar Precios Arancel</Link>
+                    <Link to="/actualizar-descuentos-pruebas" className="btn btn-success" style={{ marginBottom: '10px' }}>Actualizar Descuentos Pruebas</Link>
                 </div>
 
             </div>

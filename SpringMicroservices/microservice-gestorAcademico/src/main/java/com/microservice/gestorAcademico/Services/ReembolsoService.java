@@ -37,15 +37,18 @@ public class ReembolsoService {
         }
     }
 
-    public void reclamarReembolso(String rutEstudiante){
+    public Reembolso reclamarReembolso(String rutEstudiante){
         Estudiante estudiante = buscadorEstudiante.buscarEstudiantePorRut(rutEstudiante);
         if(estudiante == null){
             throw new IllegalArgumentException("Estudiante no encontrado");
         }
         rutEstudiante = estudiante.getRut();
         Reembolso reembolso = reembolsoRepository.findByRutEstudiante(rutEstudiante);
+        if(reembolso.getMontoReembolso() == 0){
+            return null;
+        }
         reembolso.setMontoReembolso(0);
-        reembolsoRepository.save(reembolso);
+        return reembolsoRepository.save(reembolso);
     }
 
 

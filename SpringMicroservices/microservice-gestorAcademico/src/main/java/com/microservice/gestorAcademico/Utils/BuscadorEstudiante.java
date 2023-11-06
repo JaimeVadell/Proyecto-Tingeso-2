@@ -1,9 +1,11 @@
 package com.microservice.gestorAcademico.Utils;
 
 import com.microservice.gestorAcademico.Model.Estudiante;
-import jakarta.ws.rs.HttpMethod;
+import com.microservice.gestorAcademico.Model.Pago;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,7 +26,10 @@ public class BuscadorEstudiante {
     }
 
     public List<Estudiante> obtenerTodosEstudiantes(){
-        return restTemplate.getForObject("http://estudiante-service/estudiante/", List.class);
+        String url = "http://estudiante-service/estudiante";
+        ParameterizedTypeReference<List<Estudiante>> responseType = new ParameterizedTypeReference<List<Estudiante>>() {};
+        ResponseEntity<List<Estudiante>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
+        return responseEntity.getBody();
     }
 
 }

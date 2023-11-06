@@ -8,6 +8,10 @@ import CreateArancelComponent from './components/Arancel/CreateArancelComponent'
 import ViewCuotasEstudiante from "./components/Cuotas/ViewCuotasEstudiante";
 import ViewPagosComponent from "./components/Pagos/ViewPagosEstudianteComponent";
 import ViewResumenEstudianteComponent from "./components/ResumenEstudiante/ViewResumenEstudianteComponent";
+import CreatePruebaComponent from "./components/Pruebas/CreatePruebaComponent";
+import ActualizarDescuentosArancel from "./components/ActualizarPrecios/ActualizarPreciosArancel";
+import ActualizarDescuentosPruebas from "./components/ActualizarPrecios/ActualizarDescuentosPruebas";
+import ViewReembolsoEstudianteComponent from "./components/Reembolso/ViewReembolsoEstudianteComponent";
 
 
 function App() {
@@ -24,6 +28,10 @@ function App() {
                             <Route path = "/cuotas/:rut" component = {ViewCuotasEstudiante}></Route>
                             <Route path = "/pagos/:rut" component = {ViewPagosComponent}></Route>
                             <Route path = "/resumen/:rut" component = {ViewResumenEstudianteComponent}></Route>
+                            <Route path = "/prueba" component = {CreatePruebaComponent}></Route>
+                            <Route path = "/actualizar-descuentos-arancel" component = {ActualizarDescuentosArancel}></Route>
+                            <Route path = "/actualizar-descuentos-pruebas" component = {ActualizarDescuentosPruebas}></Route>
+                            <Route path = "/reembolso/:rut" component = {ViewReembolsoEstudianteComponent}></Route>
 
                     </Switch>
                 </div>
