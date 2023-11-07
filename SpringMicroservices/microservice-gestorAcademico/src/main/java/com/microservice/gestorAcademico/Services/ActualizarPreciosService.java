@@ -32,37 +32,47 @@ public class ActualizarPreciosService {
     public void reCalcularArancel(LocalDate fechaActual){
         List<Estudiante> estudiantes = buscadorEstudiante.obtenerTodosEstudiantes();
         for(Estudiante estudiante: estudiantes) {
-            Arancel arancel = buscadorCuotas.obtenerArancelPorRut(estudiante.getRut());
-            Deuda deudaEstudiante = buscadorCuotas.obtenerDeudaEstudiante(estudiante.getRut());
-            if(!arancel.isEstadoDePagoArancel()) {
-                List<Cuota> cuotasEstudiante = buscadorCuotas.obtenerCuotasEstudiante(estudiante.getRut()); // Cuotas Ordenadas por fecha de vencimiento
-                Optional<Cuota> cuotaMasCercana = cuotasEstudiante.stream()
-                        .filter(cuota -> !cuota.isPagada())
-                        .findFirst();
-                if (cuotaMasCercana.isEmpty()) {
+            try {
+                Arancel arancel = buscadorCuotas.obtenerArancelPorRut(estudiante.getRut());
+                if (arancel == null || arancel.isEstadoDePagoArancel()) {
                     continue;
                 }
-
-                LocalDate fechaVencimiento = cuotaMasCercana.get().getPlazoMaximoPago();
-                if(fechaActual.isAfter(fechaVencimiento)){
-                    int diferenciaEnDias = (int) ChronoUnit.DAYS.between(fechaVencimiento,fechaActual);
-                    int mesesDeRetrasoActual = (diferenciaEnDias / 30) +1;
-                    int mesesDeRetrasoSistema = deudaEstudiante.getCuotasConRetraso();
-                    if(mesesDeRetrasoSistema >= mesesDeRetrasoActual){
+                Deuda deudaEstudiante = buscadorCuotas.obtenerDeudaEstudiante(estudiante.getRut());
+                if (!arancel.isEstadoDePagoArancel()) {
+                    List<Cuota> cuotasEstudiante = buscadorCuotas.obtenerCuotasEstudiante(estudiante.getRut()); // Cuotas Ordenadas por fecha de vencimiento
+                    Optional<Cuota> cuotaMasCercana = cuotasEstudiante.stream()
+                            .filter(cuota -> !cuota.isPagada())
+                            .findFirst();
+                    if (cuotaMasCercana.isEmpty()) {
                         continue;
                     }
-                    if(mesesDeRetrasoActual == 1){actuliazarDeudasyCuotas(3, deudaEstudiante, cuotasEstudiante);}
-                    else if(mesesDeRetrasoActual == 2){actuliazarDeudasyCuotas(6, deudaEstudiante, cuotasEstudiante);}
-                    else if(mesesDeRetrasoActual == 3){actuliazarDeudasyCuotas(9, deudaEstudiante, cuotasEstudiante);}
-                    else{
-                        actuliazarDeudasyCuotas(15, deudaEstudiante, cuotasEstudiante);
+
+                    LocalDate fechaVencimiento = cuotaMasCercana.get().getPlazoMaximoPago();
+                    if (fechaActual.isAfter(fechaVencimiento)) {
+                        int diferenciaEnDias = (int) ChronoUnit.DAYS.between(fechaVencimiento, fechaActual);
+                        int mesesDeRetrasoActual = (diferenciaEnDias / 30) + 1;
+                        int mesesDeRetrasoSistema = deudaEstudiante.getCuotasConRetraso();
+                        if (mesesDeRetrasoSistema >= mesesDeRetrasoActual) {
+                            continue;
+                        }
+                        if (mesesDeRetrasoActual == 1) {
+                            actuliazarDeudasyCuotas(3, deudaEstudiante, cuotasEstudiante);
+                        } else if (mesesDeRetrasoActual == 2) {
+                            actuliazarDeudasyCuotas(6, deudaEstudiante, cuotasEstudiante);
+                        } else if (mesesDeRetrasoActual == 3) {
+                            actuliazarDeudasyCuotas(9, deudaEstudiante, cuotasEstudiante);
+                        } else {
+                            actuliazarDeudasyCuotas(15, deudaEstudiante, cuotasEstudiante);
+                        }
+
+
                     }
-
-
-
                 }
             }
+            catch(Exception e){
+            }
         }
+
     }
 
     private void actuliazarDeudasyCuotas(int interes, Deuda deuda, List<Cuota> cuotas){

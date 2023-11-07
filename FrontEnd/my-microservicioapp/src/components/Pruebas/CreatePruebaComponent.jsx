@@ -47,6 +47,7 @@ class CreatePruebaComponent extends Component {
                     </div>
                 </div>
                 <button className="btn btn-success" style={{ marginTop: '10px' }} onClick={this.submitFile}>Subir Archivo</button>
+                <button className="btn btn-danger" style={{ marginTop: '10px', marginLeft: '10px' }} onClick={() => this.props.history.push('/estudiantes')}>Volver</button>
             </div>
         )
     }

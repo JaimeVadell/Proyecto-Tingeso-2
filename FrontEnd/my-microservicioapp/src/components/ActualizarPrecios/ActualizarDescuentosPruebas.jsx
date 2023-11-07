@@ -1,5 +1,5 @@
 import {Component} from "react";
-import DescuentosService from "../../services/GestorAcademicoService/DescuentosService";
+import DescuentosService from "../../services/GestorAcademicoService/ActualizarPreciosService";
 
 class ActualizarDescuentosPruebas extends Component {
     constructor(props){
@@ -28,7 +28,7 @@ class ActualizarDescuentosPruebas extends Component {
             <div style={{ width: '50%', margin: '0 auto', textAlign: 'center' }}>
                 <h1>Actualizar Descuentos de Prueba</h1>
                 <button className="btn btn-success" style={{ marginTop: '10px' }} onClick={this.actualizarDescuentosPrueba}>Actualizar Descuentos Prueba</button>
-            </div>
+                <button className="btn btn-danger" style={{ marginTop: '10px', marginLeft: '10px' }} onClick={() => this.props.history.push('/estudiantes')}>Volver</button>            </div>
         )
     }
 }

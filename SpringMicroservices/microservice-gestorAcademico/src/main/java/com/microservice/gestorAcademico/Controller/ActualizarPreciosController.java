@@ -34,7 +34,6 @@ public class ActualizarPreciosController {
 
     @PostMapping("/pruebas")
     public ResponseEntity<String> actualizarPruebas(){
-        System.out.println("Estoy en actualizar pruebas");
         if (!(LocalDate.now().getYear() == fechaActual.getYear() && LocalDate.now().getMonthValue() == fechaActual.getMonthValue() && LocalDate.now().getDayOfMonth() == fechaActual.getDayOfMonth())){
             return ResponseEntity.badRequest().body("No se puede actualizar las pruebas el mismo dia que se realizan");
         }

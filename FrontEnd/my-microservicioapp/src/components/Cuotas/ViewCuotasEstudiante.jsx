@@ -30,10 +30,14 @@ class CreateCuotasComponent extends Component {
         const rut = this.props.match.params.rut;
         this.setState({rut: rut})
         CuotasService.getCuotasRut(rut).then((res) => {
-            this.setState({ cuotas: res.data});
-            const pagarCuota = res.data.some(cuota => !cuota.pagada);
-            this.setState({ pagarCuota });
-            console.log("pagarCuota", pagarCuota)
+            if (Array.isArray(res.data)) {
+                this.setState({ cuotas: res.data});
+                const pagarCuota = res.data.some(cuota => !cuota.pagada);
+                this.setState({ pagarCuota });
+                console.log("pagarCuota", pagarCuota)
+            } else {
+                this.setState({ cuotas: null });
+            }
         });
     }
 
@@ -47,31 +51,36 @@ class CreateCuotasComponent extends Component {
                             Pagar siguiente cuota
                         </button>
                     ) : null}
-                    <table className="table table-striped table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Id Cuota</th>
-                            <th>Monto Cuota</th>
-                            <th>Plazo Máximo Pago</th>
-                            <th>Pagada</th>
-                            <th>Pago</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.state.cuotas.map(
-                                cuota =>
-                                    <tr key={cuota.idCuota}>
-                                        <td>{cuota.idCuota}</td>
-                                        <td>{cuota.montoCuota}</td>
-                                        <td>{cuota.plazoMaximoPago}</td>
-                                        <td>{cuota.pagada ? 'Sí' : 'No'}</td>
-                                        <td>{cuota.pagada ? cuota.pago.idPago : 'No aplica'}</td>
-                                    </tr>
-                            )
-                        }
-                        </tbody>
-                    </table>
+                    {this.state.cuotas ? (
+                        <table className="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Id Cuota</th>
+                                <th>Monto Cuota</th>
+                                <th>Plazo Máximo Pago</th>
+                                <th>Pagada</th>
+                                <th>Pago</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                this.state.cuotas.map(
+                                    cuota =>
+                                        <tr key={cuota.idCuota}>
+                                            <td>{cuota.idCuota}</td>
+                                            <td>{cuota.montoCuota}</td>
+                                            <td>{cuota.plazoMaximoPago}</td>
+                                            <td>{cuota.pagada ? 'Sí' : 'No'}</td>
+                                            <td>{cuota.pagada ? cuota.pago.idPago : 'No aplica'}</td>
+                                        </tr>
+                                )
+                            }
+                            </tbody>
+                        </table>
+                    ) : (
+                        <p>El estudiante no tiene cuotas porque pagó al contado</p>
+                    )}
+                    <button className="btn btn-danger" onClick={() => this.props.history.push('/estudiantes')}>Volver</button>
                 </div>
             </div>
         )

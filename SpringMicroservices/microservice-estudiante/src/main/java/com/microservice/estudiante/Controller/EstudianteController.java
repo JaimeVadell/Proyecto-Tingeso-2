@@ -36,7 +36,6 @@ public class EstudianteController {
 
     @PostMapping()
     public ResponseEntity<Estudiante> createEstudiante(@RequestBody Estudiante estudiante) {
-        System.out.println("Estoy en el controller");
         Estudiante estudianteNew = estudianteService.crearEstudiante(estudiante);
         if(estudianteNew == null){
             return ResponseEntity.badRequest().build();

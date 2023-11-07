@@ -62,6 +62,12 @@ class CreateEstudianteComponent extends Component {
     changeAnioEgresoHandler = (event) => {
         this.setState({anioEgreso: event.target.value});
     }
+    componentDidMount() {
+        this.setState({
+            tipoColegio: "MUNICIPAL"
+        })
+    }
+
     cancel(){
         this.props.history.push('/estudiantes');
     }

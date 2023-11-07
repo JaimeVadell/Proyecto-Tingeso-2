@@ -26,8 +26,17 @@ public class ResumenEstudianteService {
             throw new IllegalArgumentException("Estudiante no encontrado");
         }
         Arancel arancel = buscadorCuotas.obtenerArancelPorRut(estudiante.getRut());
+        if (arancel == null){
+            throw new IllegalArgumentException("Arancel no encontrado");
+        }
+        Deuda deudaEstudiante;
+        if(arancel.getPago() == EMedioPago.CONTADO){
+            deudaEstudiante = null;
+        }
+        else{
+            deudaEstudiante = buscadorCuotas.obtenerDeudaEstudiante(estudiante.getRut());
+        }
         List<Pago> pagosEstudiante = buscadorCuotas.obtenerPagosEstudiante(estudiante.getRut());
-        Deuda deudaEstudiante = buscadorCuotas.obtenerDeudaEstudiante(estudiante.getRut());
         List<Prueba> pruebasEstudiante = pruebaService.obtenerPruebasEstudiante(estudiante.getRut());
 
         //Calculos Prueba
@@ -64,7 +73,12 @@ public class ResumenEstudianteService {
                 fechaUltimoPago = pago.getFechaPago();
             }
         }
-
+        int montoPorPagar = 0;
+        int cuotasConRetraso = 0;
+        if(deudaEstudiante != null){
+            montoPorPagar = deudaEstudiante.getMontoDeuda();
+            cuotasConRetraso = deudaEstudiante.getCuotasConRetrasoHistorico();
+        }
         //Creacion de ResumenDTO
         return ResumenDTO.builder()
                 .rut(estudiante.getRut())
@@ -78,8 +92,8 @@ public class ResumenEstudianteService {
                 .numeroCuotasPagadas(numeroCuotasPagadas)
                 .montoTotalPagado(montoTotalPagado)
                 .fechaUltimoPago(fechaUltimoPago)
-                .montoPorPagar(deudaEstudiante.getMontoDeuda())
-                .numeroCuotasConRetraso(deudaEstudiante.getCuotasConRetrasoHistorico())
+                .montoPorPagar(montoPorPagar)
+                .numeroCuotasConRetraso(cuotasConRetraso)
                 .build();
     }
 }

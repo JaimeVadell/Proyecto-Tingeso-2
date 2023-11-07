@@ -1,5 +1,5 @@
 import {Component} from "react";
-import DescuentosService from "../../services/GestorAcademicoService/DescuentosService";
+import DescuentosService from "../../services/GestorAcademicoService/ActualizarPreciosService";
 
 class ActualizarDescuentosPruebas extends Component {
     constructor(props){
@@ -21,10 +21,10 @@ class ActualizarDescuentosPruebas extends Component {
                 const response = await DescuentosService.actualizarAranceles(this.state.fecha);
                 console.log(response.status); // You can check the status here
                 if(response.status === 200) {
-                    alert("Descuentos recalculados exitosamente");
+                    alert("Calculo realizado exitosamente");
                 }
                 else {
-                    alert("Ocurrio un error al recalcular los descuentos");
+                    alert("Ocurrio un error al recalcular las cuotas");
                 }
 
             } catch (error) {
@@ -36,10 +36,11 @@ class ActualizarDescuentosPruebas extends Component {
     render() {
         return (
             <div style={{ width: '50%', margin: '0 auto', textAlign: 'center' }}>
-                <h1>Actualizar Descuentos</h1>
-                <p>Por favor ingresa una fecha para recalcular los descuentos:</p>
+                <h1>Actualizar Precio Cuotas</h1>
+                <p>Por favor ingresa una fecha para recalcular el precio de las cuotas:</p>
                 <input type="date" value={this.state.fecha} onChange={this.handleDateChange} />
-                <button className="btn btn-success" style={{ marginTop: '10px' }} onClick={this.submitDate}>Recalcular Descuentos</button>
+                <button className="btn btn-success" style={{ marginTop: '10px' }} onClick={this.submitDate}>Recalcular </button>
+                <button className="btn btn-danger" style={{ marginTop: '10px', marginLeft: '10px' }} onClick={() => this.props.history.push('/estudiantes')}>Volver</button>
             </div>
         )
     }

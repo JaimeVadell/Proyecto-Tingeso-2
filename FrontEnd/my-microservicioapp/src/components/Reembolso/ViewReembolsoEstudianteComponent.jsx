@@ -54,6 +54,7 @@ class ViewReembolsoEstudianteComponent extends Component {
                 ) : (
                     <p>El estudiante no tiene un monto para reembolsar.</p>
                 )}
+                <button className="btn btn-danger" style={{ marginTop: '10px' }} onClick={() => this.props.history.push('/estudiantes')}>Volver</button>
             </div>
         )
     }

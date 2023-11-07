@@ -70,7 +70,8 @@ class CreateArancelComponent extends Component {
         const tipoColegio = params.get("tipoColegio");
         this.setState({
             rut: rut,
-            tipoColegio: tipoColegio
+            tipoColegio: tipoColegio,
+            medioPago: "CONTADO"
         });
     }
 

@@ -24,7 +24,7 @@ class ViewResumenEstudianteComponent extends Component {
         return (
             <div>
                 <h3 className="text-center">Resumen del Estudiante</h3>
-                <div className="row">
+                <div className="table-responsive">
                     <table className="table table-striped table-bordered">
                         <thead>
                         <tr>
@@ -51,13 +51,13 @@ class ViewResumenEstudianteComponent extends Component {
                                 <td>{this.state.resumen.apellido}</td>
                                 <td>{this.state.resumen.numeroExamenesRendidos === 0 ? 'Sin Examenes' : this.state.resumen.numeroExamenesRendidos}</td>
                                 <td>{this.state.resumen.numeroExamenesRendidos === 0 ? 'No aplica' : this.state.resumen.promedioExamenesRendidos}</td>
-                                <td>{this.state.resumen.montoTotalArancel}</td>
+                                <td>{this.state.resumen.montoTotalArancel ? this.state.resumen.montoTotalArancel.toLocaleString('de-DE') : ''}</td>
                                 <td>{this.state.resumen.tipoPago}</td>
                                 <td>{this.state.resumen.numeroCuotasPactadas}</td>
                                 <td>{this.state.resumen.numeroCuotasPagadas}</td>
-                                <td>{this.state.resumen.montoTotalPagado}</td>
+                                <td>{this.state.resumen.montoTotalPagado ? this.state.resumen.montoTotalPagado.toLocaleString('de-DE') : 0}</td>
                                 <td>{this.state.resumen.fechaUltimoPago === null ? 'Sin Pagos' : this.state.resumen.fechaUltimoPago}</td>
-                                <td>{this.state.resumen.montoPorPagar}</td>
+                                <td>{this.state.resumen.montoPorPagar ? this.state.resumen.montoPorPagar.toLocaleString('de-DE') : ''}</td>
                                 <td>{this.state.resumen.numeroCuotasConRetraso}</td>
                             </tr>
                         }
