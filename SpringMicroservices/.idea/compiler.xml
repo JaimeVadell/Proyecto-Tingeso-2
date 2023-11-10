@@ -7,14 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="microservice-gateway" />
         <module name="microservice-cuotas" />
-        <module name="microservice-estudiante" />
+        <module name="microservice-gateway" />
         <module name="microservice-gestorAcademico" />
+        <module name="microservice-estudiante" />
         <module name="microservice-eureka" />
         <module name="microservice-config" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SpringMicroservices" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

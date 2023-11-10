@@ -1,9 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice-cuotas/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice-eureka/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice-gestorAcademico/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice-config/pom.xml" />
+        <option value="$PROJECT_DIR$/microservice-estudiante/pom.xml" />
       </list>
     </option>
   </component>
