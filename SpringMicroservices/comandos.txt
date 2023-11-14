@@ -1,0 +1,136 @@
+D:
+cd '.\Simon\progra\Tingeso-Mingeso\Mingeso-Tingeso-Ayudantia\Unidad 2\Aplicación-kubernetes-postgresql\'
+
+cd backend-config-service
+mvn clean install -DskipTests=True
+docker build -t jaimevadell/topeducation-config-postgres .
+docker push jaimevadell/topeducation-config-postgres
+cd ../
+
+cd backend-eureka-service
+mvn clean install -DskipTests=True
+docker build -t jaimevadell/topeducation-eureka-postgres .
+docker push jaimevadell/topeducation-eureka-postgres
+cd ../
+
+cd backend-gateway-service
+mvn clean install -DskipTests=True
+docker build -t jaimevadell/topeducation-gateway-postgres .
+docker push jaimevadell/topeducation-gateway-postgres
+cd ../
+
+cd backend-estudiantes-service
+mvn clean install -DskipTests=True
+docker build -t jaimevadell/topeducation-estudiantes-postgres .
+docker push jaimevadell/topeducation-estudiantes-postgres
+cd ../
+
+cd backend-cuotas-service
+mvn clean install -DskipTests=True
+docker build -t jaimevadell/topeducation-cuotas-postgres .
+docker push jaimevadell/topeducation-cuotas-postgres
+cd ../
+
+cd backend-gestoracademico-service
+mvn clean install -DskipTests=True
+docker build -t jaimevadell/topeducation-gestoracademico-postgres .
+docker push jaimevadell/topeducation-gestoracademico-postgres
+cd ../
+
+cd frontend-service
+docker build -t jaimevadell/topeducation-frontend-postgres .
+docker push jaimevadell/topeducation-frontend-postgres
+cd ../
+
+
+---------------------------------------------------------
+
+
+minikube start
+minikube status
+
+cd Minikube
+
+kubectl apply -f frontend-deployment-service.yml
+
+kubectl apply -f postgres-secrets.yml
+kubectl apply -f postgres-configmap.yml
+kubectl apply -f postgres-dp-sv-pvc.yml
+
+kubectl apply -f backend-config-deployment-service.yml
+kubectl apply -f backend-eureka-deployment-service.yml
+
+kubectl apply -f backend-gateway-deployment-service.yml
+kubectl apply -f backend-estudiantes-deployment-service.yml
+kubectl apply -f backend-cuotas-deployment-service.yml
+kubectl apply -f backend-gestoracademico-deployment-service.yml
+
+
+
+
+---------------------------------------------------------
+
+kubectl delete deployments frontend-deployment
+kubectl delete services frontend-service
+
+kubectl delete deployments postgres
+kubectl delete services postgres
+kubectl delete PersistentVolumeClaims postgres-persistent-volume-claim
+kubectl delete PersistentVolumes postgres-persistent-volume-claim
+
+kubectl delete ConfigMap postgres-config-map
+
+kubectl delete Secret postgres-credentials
+
+kubectl delete deployments backend-config-deployment
+kubectl delete services backend-config-service
+
+kubectl delete deployments backend-eureka-deployment
+kubectl delete services backend-eureka-service
+
+kubectl delete deployments backend-gateway-deployment
+kubectl delete services backend-gateway-service
+
+kubectl delete deployments backend-estudiantes-deployment
+kubectl delete services backend-estudiantes-service
+
+kubectl delete deployments backend-cuotas-deployment
+kubectl delete services backend-cuotas-service
+
+kubectl delete deployments backend-gestoracademico-deployment
+kubectl delete services backend-gestoracademico-service
+
+
+---------------------------------------------------------
+
+
+kubectl get pods
+kubectl get services
+kubectl get deployments
+kubectl get persistentvolumeclaims
+kubectl get persistentvolume
+kubectl get configmaps
+kubectl get secrets
+
+kubectl get all
+
+kubectl logs <Name pods>
+kubectl logs <Name pods> -f
+
+kubectl port-forward <nombre-pod> <puerto-local>:<puerto-contenedor>
+
+kubectl exec -it <Name pods postgres> bash -- psql -h postgres -U postgres
+
+CREATE DATABASE topeducationcuotas;
+CREATE DATABASE topeducationestudiantes;
+CREATE DATABASE topeducationgestoracademico;
+
+Para visualizar las base de datos
+\l
+
+
+minikube service frontend-service
+minikube tunnel
+
+// Este comando es para abrir una pagina que permite visualizar los pods, services entre otras cosas
+minikube dashboard
